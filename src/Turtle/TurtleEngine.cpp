@@ -1,8 +1,6 @@
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
-#include "Turtle/test.h"
-#include "json/json.hpp"
+#include "Turtle/Core/Logger.h"
 
 int main()
 {
+	TURTLE_LOG_MESSAGE("ejoooo")
 }
