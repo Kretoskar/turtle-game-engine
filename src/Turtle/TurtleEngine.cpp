@@ -1,4 +1,5 @@
 #include "Turtle/Core/Logger.h"
+#include "Turtle/Core/TurtleString.h"
 
 int main()
 {
