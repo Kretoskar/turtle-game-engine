@@ -1,7 +1,13 @@
 #include "Turtle/Core/Engine.h"
+#include "Turtle/ResourceHandling/File.h"
+
+#include <iostream>
 
 int main()
 {
+	Turtle::File file("file.txt");
+	std::cout << *file.GetFileContents();
+
 	if (Turtle::Engine::Init())
 	{
 		Turtle::Engine::Loop();
@@ -15,8 +21,6 @@ int main()
 	std::string str((std::istreambuf_iterator<char>(file)),
 		std::istreambuf_iterator<char>());
 
-	json json = json::parse(str);
 
-	std::cout << json["window"]["height"];
 	*/
 }

@@ -1,18 +1,18 @@
 #include "Turtle/Core/Engine.h"
 #include "Turtle/Core/Logger.h"
 
-Turtle::Engine* Turtle::Engine::_engineInstance = nullptr;
+Turtle::Engine* Turtle::Engine::EngineInstance = nullptr;
 
 bool Turtle::Engine::Init()
 {
-	if (Turtle::Engine::_engineInstance)
+	if (Turtle::Engine::EngineInstance)
 	{
 		TURTLE_LOG_ERROR("Engine already running")
 
 		return false;
 	}
 
-	Turtle::Engine::_engineInstance = new Turtle::Engine();
+	Turtle::Engine::EngineInstance = new Turtle::Engine();
 	return true;
 }
 
@@ -26,5 +26,5 @@ void Turtle::Engine::Loop()
 
 void Turtle::Engine::ShutDown()
 {
-	delete Turtle::Engine::_engineInstance;
+	delete Turtle::Engine::EngineInstance;
 }

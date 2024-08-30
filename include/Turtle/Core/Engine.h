@@ -9,6 +9,6 @@ namespace Turtle
 		static void Loop();
 		static void ShutDown();
 
-		static Engine* _engineInstance;
+		static Engine* EngineInstance;
 	};
 }
