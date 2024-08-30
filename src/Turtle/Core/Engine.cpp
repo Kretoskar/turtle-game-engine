@@ -4,6 +4,7 @@
 
 Turtle::Engine* Turtle::Engine::EngineInstance = nullptr;
 Turtle::EngineSettings* Turtle::Engine::EngineSettings = nullptr;
+Turtle::Window* Turtle::Engine::MainWindow = nullptr;
 
 bool Turtle::Engine::Init()
 {
@@ -16,22 +17,24 @@ bool Turtle::Engine::Init()
 
 	Turtle::Engine::EngineInstance = new Turtle::Engine();
 	Turtle::Engine::EngineSettings = new Turtle::EngineSettings(EngineSettingsJsonPath);
+	Turtle::Engine::MainWindow = new Turtle::Window();
 
-	std::cout << Turtle::Engine::EngineSettings->WindowSetting().Name.Get();
+	if (!Turtle::Engine::MainWindow->Init())
+	{
+		return false;
+	}
 
 	return true;
 }
 
 void Turtle::Engine::Loop()
 {
-	while (true)
-	{
-
-	}
+	Turtle::Engine::MainWindow->Loop();
 }
 
 void Turtle::Engine::ShutDown()
 {
+	delete Turtle::Engine::MainWindow;
 	delete Turtle::Engine::EngineInstance;
 	delete Turtle::Engine::EngineSettings;
 }

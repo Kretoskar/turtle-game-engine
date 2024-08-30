@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Turtle/ResourceHandling/EngineSettings.h"
+#include "Turtle/Window/Window.h"
 
 namespace Turtle
 {
@@ -13,8 +14,9 @@ namespace Turtle
 
 		static Engine* EngineInstance;
 		static EngineSettings* EngineSettings;
+		static Window* MainWindow;
 
-		private:
+	private:
 		static constexpr char* EngineSettingsJsonPath = "EngineSettings.json";
 	};
 }
