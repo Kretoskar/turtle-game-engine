@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "Turtle/Core/Logger.h"
 
 #define FIND_HASH_CONFLICTS
@@ -15,6 +16,9 @@ namespace Turtle
 
         TurtleString(const char* s)
             : hash(Hash(s)) {}
+
+        TurtleString(std::string s)
+            : hash(Hash(s.c_str())) {}
 
     private:
         unsigned hash;
