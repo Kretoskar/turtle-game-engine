@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
+#include "Turtle/Window/UserInterface.h"
 #include "Turtle/Core/TurtleString.h"
 
 namespace Turtle
@@ -15,6 +15,7 @@ namespace Turtle
 
 		bool Init();
 		void Loop();
+		void Shutdown();
 
 		GLFWwindow* GetGlfwWindow() const { return _glfwWindow; }
 
@@ -38,5 +39,6 @@ namespace Turtle
 
 		uint32_t _width, _height;
 		TurtleString _name;
+		UserInterface* _ui;
 	}; 
 }
