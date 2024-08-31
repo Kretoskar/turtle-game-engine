@@ -1,5 +1,6 @@
 #include "Turtle/Core/Engine.h"
 #include "Turtle/Core/Logger.h"
+#include "Turtle/Core/EventSystem.h"
 #include <iostream>
 
 Turtle::Engine* Turtle::Engine::EngineInstance = nullptr;
@@ -17,7 +18,10 @@ bool Turtle::Engine::Init()
 
 	Turtle::Engine::EngineInstance = new Turtle::Engine();
 	Turtle::Engine::EngineSettings = new Turtle::EngineSettings(EngineSettingsJsonPath);
+
+	Turtle::Dispatcher::Init();
 	Turtle::Engine::MainWindow = new Turtle::Window();
+	
 
 	if (!Turtle::Engine::MainWindow->Init())
 	{
@@ -37,4 +41,6 @@ void Turtle::Engine::ShutDown()
 	delete Turtle::Engine::MainWindow;
 	delete Turtle::Engine::EngineInstance;
 	delete Turtle::Engine::EngineSettings;
+
+	Turtle::Dispatcher::Cleanup();
 }

@@ -21,6 +21,18 @@ namespace Turtle
 		bool GetIsValid() const {}
 
 	private:
+		void BindWindowEvents();
+
+		void HandleWindowMoveEvents(int xpos, int ypos);
+		void HandleWindowMinimizedEvents(int minimized);
+		void HandleWindowMaximizedEvents(int maximized);
+		void HandleWindowCloseEvents();
+
+		void HandleKeyEvents(int key, int scancode, int action, int mods);
+		void HandleMouseButtonEvents(int button, int action, int mods);
+		void HandleMousePositionEvents(double xpos, double ypos);
+		void HandleMouseEnterLeaveEvents(int enter);
+
 		GLFWwindow* _glfwWindow = nullptr;
 		bool _isValid = false;
 

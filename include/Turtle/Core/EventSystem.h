@@ -8,14 +8,14 @@
 #include "TurtleString.h"
 
 #define TURTLE_BIND_EVENT(type, event) \
-Turtle::Dispatcher::GetInstance().Subscribe(type, \
+Turtle::Dispatcher::GetInstance()->Subscribe(type, \
 [this](auto&& PH1) \
 { \
 event(std::forward<decltype(PH1)>(PH1)); \
 });
 
 #define TURTLE_POST_EVENT(type, payload) \
-Turtle::Dispatcher::GetInstance().Post(type, payload);
+Turtle::Dispatcher::GetInstance()->Post(type, payload);
 
 namespace Turtle
 {
@@ -24,13 +24,15 @@ namespace Turtle
         Dispatcher() {}
 
     public:
+        static void Init();
+        static void Cleanup();
+
         Dispatcher(Dispatcher const&) = delete;
         void operator=(Dispatcher const&) = delete;
 
-        static Dispatcher& GetInstance()
+        static Dispatcher* GetInstance()
         {
-            static Dispatcher instance;
-            return instance;
+            return _instance;
         }
 
         void Subscribe(TurtleString Type, std::function<void(void*)>&& Func);
@@ -38,6 +40,7 @@ namespace Turtle
         void Post(TurtleString Type, void* Payload) const;
 
     private:
+        static Dispatcher* _instance;
         std::map<TurtleString, std::vector<std::function<void(void*)>>> _observers;
     };
 
