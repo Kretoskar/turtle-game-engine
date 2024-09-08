@@ -56,27 +56,18 @@ bool Turtle::Window::Init()
 
 	BindWindowEvents();
 
-	_ui = new UserInterface();
-	_ui->Init(_glfwWindow);
-
 	return true;
 }
 
 void Turtle::Window::Loop()
 {
-	while (!glfwWindowShouldClose(_glfwWindow))
-	{
-		_ui->CreateFrame();
-		_ui->Render();
-
-		glfwSwapBuffers(_glfwWindow);
-		glfwPollEvents();
-	}
+	glfwSwapBuffers(_glfwWindow);
+	glfwPollEvents();
 }
 
 void Turtle::Window::Shutdown()
 {
-	delete _ui;
+
 }
 
 void Turtle::Window::BindWindowEvents()

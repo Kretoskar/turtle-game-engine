@@ -2,6 +2,7 @@
 
 #include "Turtle/ResourceHandling/EngineSettings.h"
 #include "Turtle/Window/Window.h"
+#include "Turtle/Rendering/UserInterface.h"
 
 namespace Turtle
 {
@@ -15,6 +16,7 @@ namespace Turtle
 		static Engine* EngineInstance;
 		static EngineSettings* EngineSettings;
 		static Window* MainWindow;
+		static UserInterface* UserInterface;
 
 	private:
 		static constexpr char* EngineSettingsJsonPath = "EngineSettings.json";

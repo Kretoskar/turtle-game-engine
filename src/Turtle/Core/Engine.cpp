@@ -6,6 +6,7 @@
 Turtle::Engine* Turtle::Engine::EngineInstance = nullptr;
 Turtle::EngineSettings* Turtle::Engine::EngineSettings = nullptr;
 Turtle::Window* Turtle::Engine::MainWindow = nullptr;
+Turtle::UserInterface* Turtle::Engine::UserInterface = nullptr;
 
 bool Turtle::Engine::Init()
 {
@@ -16,14 +17,19 @@ bool Turtle::Engine::Init()
 		return false;
 	}
 
-	Turtle::Engine::EngineInstance = new Turtle::Engine();
-	Turtle::Engine::EngineSettings = new Turtle::EngineSettings(EngineSettingsJsonPath);
+	EngineInstance = new Engine();
+	EngineSettings = new Turtle::EngineSettings(EngineSettingsJsonPath);
 
 	Turtle::Dispatcher::Init();
-	Turtle::Engine::MainWindow = new Turtle::Window();
+	MainWindow = new Turtle::Window();
 	
+	if (!MainWindow->Init())
+	{
+		return false;
+	}
 
-	if (!Turtle::Engine::MainWindow->Init())
+	UserInterface = new Turtle::UserInterface();
+	if (!UserInterface->Init(MainWindow->GetGlfwWindow()))
 	{
 		return false;
 	}
@@ -33,14 +39,23 @@ bool Turtle::Engine::Init()
 
 void Turtle::Engine::Loop()
 {
-	Turtle::Engine::MainWindow->Loop();
+	while (!MainWindow->GetShouldClose())
+	{
+		UserInterface->CreateFrame();
+		UserInterface->Render();
+
+		MainWindow->Loop();
+	}
 }
 
 void Turtle::Engine::ShutDown()
 {
-	delete Turtle::Engine::MainWindow;
-	delete Turtle::Engine::EngineInstance;
-	delete Turtle::Engine::EngineSettings;
+	delete MainWindow;
+	delete EngineInstance;
+	delete EngineSettings;
+
+	UserInterface->Cleanup();
+	delete UserInterface;
 
 	Turtle::Dispatcher::Cleanup();
 }
