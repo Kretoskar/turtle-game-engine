@@ -17,6 +17,14 @@ Turtle::EngineSettings::EngineSettings(const char* jsonPath)
 	Json json = Json::parse(*file.GetFileContents());
 	
 	_windowSettings.Name = TurtleString(json["window"]["name"]);
+
 	_windowSettings.Width = json["window"]["width"];
 	_windowSettings.Height = json["window"]["height"];
+
+	_windowSettings.BgColor = 
+	{ 
+		json["window"]["bgColorR"], 
+		json["window"]["bgColorG"], 
+		json["window"]["bgColorB"] 
+	};
 }

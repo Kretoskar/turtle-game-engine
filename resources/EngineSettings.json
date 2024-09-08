@@ -2,6 +2,9 @@
   "window": {
     "name": "Turtle Game Engine",
     "width": 1920,
-    "height": 1080
+    "height": 1080,
+    "bgColorR": 0,
+    "bgColorG": 17,
+    "bgColorB": 14
   }
 }

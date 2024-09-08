@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "Turtle/Core/TurtleString.h"
+#include "glm/vec3.hpp"
 
 namespace Turtle
 {
@@ -14,6 +15,7 @@ namespace Turtle
 			TurtleString Name;
 			uint32_t Width;
 			uint32_t Height;
+			glm::vec3 BgColor;
 		};
 
 		const Window& WindowSetting() const { return _windowSettings; }
