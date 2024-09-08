@@ -2,6 +2,7 @@
 #include "Turtle/Core/Logger.h"
 #include "Turtle/Core/Engine.h"
 #include "Turtle/Core/EventSystem.h"
+#include "Turtle/ResourceHandling/EngineSettings.h"
 
 Turtle::Window::~Window()
 {
@@ -59,7 +60,7 @@ bool Turtle::Window::Init()
 	return true;
 }
 
-void Turtle::Window::Loop()
+void Turtle::Window::Update()
 {
 	glfwSwapBuffers(_glfwWindow);
 	glfwPollEvents();

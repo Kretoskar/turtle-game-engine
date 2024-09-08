@@ -3,10 +3,16 @@
 #include "Turtle/Core/EventSystem.h"
 #include <iostream>
 
+#include "Turtle/ResourceHandling/EngineSettings.h"
+#include "Turtle/Window/Window.h"
+#include "Turtle/Rendering/UserInterface.h"
+#include "Turtle/Rendering/Renderer.h"
+
 Turtle::Engine* Turtle::Engine::EngineInstance = nullptr;
 Turtle::EngineSettings* Turtle::Engine::EngineSettings = nullptr;
 Turtle::Window* Turtle::Engine::MainWindow = nullptr;
 Turtle::UserInterface* Turtle::Engine::UserInterface = nullptr;
+Turtle::Renderer* Turtle::Engine::Renderer = nullptr;
 
 bool Turtle::Engine::Init()
 {
@@ -28,6 +34,12 @@ bool Turtle::Engine::Init()
 		return false;
 	}
 
+	Renderer = new Turtle::Renderer();
+	if (!Renderer->Init())
+	{
+		return false;
+	}
+
 	UserInterface = new Turtle::UserInterface();
 	if (!UserInterface->Init(MainWindow->GetGlfwWindow()))
 	{
@@ -41,10 +53,12 @@ void Turtle::Engine::Loop()
 {
 	while (!MainWindow->GetShouldClose())
 	{
+		Renderer->Render();
+
 		UserInterface->CreateFrame();
 		UserInterface->Render();
 
-		MainWindow->Loop();
+		MainWindow->Update();
 	}
 }
 
@@ -53,6 +67,7 @@ void Turtle::Engine::ShutDown()
 	delete MainWindow;
 	delete EngineInstance;
 	delete EngineSettings;
+	delete Renderer;
 
 	UserInterface->Cleanup();
 	delete UserInterface;

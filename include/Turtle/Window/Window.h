@@ -13,7 +13,7 @@ namespace Turtle
 		~Window();
 
 		bool Init();
-		void Loop();
+		void Update();
 		void Shutdown();
 
 		GLFWwindow* GetGlfwWindow() const { return _glfwWindow; }
