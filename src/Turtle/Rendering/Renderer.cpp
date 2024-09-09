@@ -5,6 +5,7 @@
 #include "Turtle/Rendering/Renderer.h"
 #include "Turtle/Core/Engine.h"
 #include "Turtle/ResourceHandling/EngineSettings.h"
+#include "Turtle/Rendering/Camera.h"
 
 // Vertices coordinates
 float vertices[] =
@@ -49,7 +50,7 @@ bool Turtle::Renderer::Init()
     vao->LinkAttrib(*vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     // UV
     vao->LinkAttrib(*vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    
+
 	glClearColor(
 		Turtle::Engine::EngineSettings->WindowSetting().BgColor.r / 255,
 		Turtle::Engine::EngineSettings->WindowSetting().BgColor.g / 255,
@@ -72,12 +73,8 @@ void Turtle::Renderer::Render()
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
 
-    glm::mat4 view = glm::mat4(1.0f);
-    glm::mat4 projection = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-    projection = glm::perspective(glm::radians(45.0f), (float)1920 / 1080, 0.1f, 100.0f);
     shader->SetModelMatrix(model);
-    shader->SetVPMatrix(projection * view);
+    shader->SetVPMatrix(Engine::Camera->GetVPMatrix());
 
     shader->Bind();
     texture->Bind();
