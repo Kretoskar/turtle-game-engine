@@ -49,40 +49,37 @@ void Turtle::UserInterface::CreateConsoleWidget()
     ImVec2 ConsoleWindowSize = ImGui::GetMainViewport()->Size;
     ConsoleWindowSize.y /= 4;
 
-    if (Turtle::Logger::loggedLineBufferCurrCount > 0)
+    ImGuiWindowFlags flags = 0;
+    ImGui::SetNextWindowBgAlpha(0.9f);
+    ImGui::SetNextWindowPos(HorCenterVerBottomPos, ImGuiCond_Always, ImVec2(0.5f, 1.0f));
+    ImGui::SetNextWindowSize(ConsoleWindowSize, ImGuiCond_Always);
+    ImGui::Begin("Console", nullptr, flags);
+
+    for (unsigned int i = 0; i < Turtle::Logger::loggedLineBufferCurrCount; i++)
     {
-        ImGuiWindowFlags flags = 0;
-        ImGui::SetNextWindowBgAlpha(0.8f);
-        ImGui::SetNextWindowPos(HorCenterVerBottomPos, ImGuiCond_Always, ImVec2(0.5f, 1.0f));
-        ImGui::SetNextWindowSize(ConsoleWindowSize, ImGuiCond_Always);
-        ImGui::Begin("Console", nullptr, flags);
-
-        for (unsigned int i = 0; i < Turtle::Logger::loggedLineBufferCurrCount; i++)
-        {
-            switch (Turtle::Logger::logLinesVerbosity[i]) {
-            case Turtle::Error:
-                ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
-                break;
-            case Turtle::Warning:
-                ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 0, 255));
-                break;
-            case Turtle::Message:
-                ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
-                break;
-            }
-
-            ImGui::Text(Turtle::Logger::logLines[i].c_str());
-
-            ImGui::PopStyleColor();
+        switch (Turtle::Logger::logLinesVerbosity[i]) {
+        case Turtle::Error:
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
+            break;
+        case Turtle::Warning:
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 0, 255));
+            break;
+        case Turtle::Message:
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+            break;
         }
 
-        if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
-        {
-            ImGui::SetScrollHereY(0.0f);
-        }
+        ImGui::Text(Turtle::Logger::logLines[i].c_str());
 
-        ImGui::End();
+        ImGui::PopStyleColor();
     }
+
+    if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+    {
+        ImGui::SetScrollHereY(0.0f);
+    }
+
+    ImGui::End();
 }
 
 void Turtle::UserInterface::CreateSceneWidget()
