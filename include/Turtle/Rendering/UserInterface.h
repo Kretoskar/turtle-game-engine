@@ -11,5 +11,10 @@ namespace Turtle
         void CreateFrame();
         void Render();
         void Cleanup();
+
+    private:
+        void CreateConsoleWidget();
+        void CreateSceneWidget();
+        void CreateDetailsWidget();
     };
 }

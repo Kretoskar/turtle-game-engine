@@ -23,6 +23,26 @@ void Turtle::UserInterface::CreateFrame()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    CreateConsoleWidget();
+    CreateSceneWidget();
+    CreateDetailsWidget();
+}
+
+void Turtle::UserInterface::Render()
+{
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void Turtle::UserInterface::Cleanup()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+}
+
+void Turtle::UserInterface::CreateConsoleWidget()
+{
     ImVec2 HorCenterVerBottomPos = ImGui::GetMainViewport()->GetCenter();
     HorCenterVerBottomPos.y = ImGui::GetMainViewport()->Size.y;
 
@@ -36,7 +56,6 @@ void Turtle::UserInterface::CreateFrame()
         ImGui::SetNextWindowPos(HorCenterVerBottomPos, ImGuiCond_Always, ImVec2(0.5f, 1.0f));
         ImGui::SetNextWindowSize(ConsoleWindowSize, ImGuiCond_Always);
         ImGui::Begin("Console", nullptr, flags);
-
 
         for (unsigned int i = 0; i < Turtle::Logger::loggedLineBufferCurrCount; i++)
         {
@@ -66,15 +85,34 @@ void Turtle::UserInterface::CreateFrame()
     }
 }
 
-void Turtle::UserInterface::Render()
+void Turtle::UserInterface::CreateSceneWidget()
 {
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    ImVec2 SceneWindowSize = ImGui::GetMainViewport()->Size;
+    SceneWindowSize.x /= 5;
+    SceneWindowSize.y = (SceneWindowSize.y / 4) * 3;
+
+    ImGuiWindowFlags flags = 0;
+    
+    ImGui::SetNextWindowBgAlpha(0.8f);
+    ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
+    ImGui::SetNextWindowSize(SceneWindowSize, ImGuiCond_Always);
+    ImGui::Begin("Scene", nullptr, flags);
+
+    ImGui::End();
 }
 
-void Turtle::UserInterface::Cleanup()
+void Turtle::UserInterface::CreateDetailsWidget()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    ImVec2 DetailsWindowSize = ImGui::GetMainViewport()->Size;
+    DetailsWindowSize.x /= 5;
+    DetailsWindowSize.y = (DetailsWindowSize.y / 4) * 3;
+
+    ImGuiWindowFlags flags = 0;
+
+    ImGui::SetNextWindowBgAlpha(0.8f);
+    ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->Size.x, 0.0f), ImGuiCond_Always, ImVec2(1.0f, 0.0f));
+    ImGui::SetNextWindowSize(DetailsWindowSize, ImGuiCond_Always);
+    ImGui::Begin("Details", nullptr, flags);
+
+    ImGui::End();
 }
