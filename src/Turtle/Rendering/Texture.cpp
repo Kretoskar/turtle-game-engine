@@ -1,15 +1,21 @@
 #include "Turtle/Rendering/Texture.h"
 
 #include <glad/glad.h>
-
+#include "Turtle/ResourceHandling/File.h"
 #include "stb_image/stb_image.h"
 #include "Turtle/Core/Logger.h"
 
 Turtle::Texture::Texture(const std::string& path, unsigned unit, unsigned format, unsigned pixelType, unsigned texType)
     : _type(texType), _unit(unit)
 {
+    char result[100];
+
+    strcpy(result, RESOURCES_PATH);
+    strcat(result, path.c_str());
+
     stbi_set_flip_vertically_on_load(true);
-    unsigned char* _bytes = stbi_load(path.c_str(), &_width, &_height, &_numColCh, 0);
+    unsigned char* _bytes = stbi_load(result, &_width, &_height, &_numColCh, 0);
+
     glGenTextures(1, &_id);
 
     glActiveTexture(GL_TEXTURE0 + _unit);

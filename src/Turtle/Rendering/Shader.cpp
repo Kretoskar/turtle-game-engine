@@ -5,7 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Turtle/Core/Logger.h"
-//#include "Rendering/Texture.h"
+#include "Turtle/Rendering/Texture.h"
 
 Turtle::Shader::Shader(std::string fragmentFilePath, std::string vertexFilePath)
     : _fragmentFilePath(std::move(fragmentFilePath)), _vertexFilePath(std::move(vertexFilePath))
@@ -68,14 +68,14 @@ void Turtle::Shader::SetUniformMat4f(const std::string& name, const glm::mat4& m
 void Turtle::Shader::AssignDiffuseMap(Texture& texture)
 {
     Bind();
-//    texture.Bind();
+    texture.Bind();
     SetUniform1i("diffuseMap", 0);
 }
 
 void Turtle::Shader::AssignSpecularMap(Texture& texture)
 {
     Bind();
- //   texture.Bind();
+    texture.Bind();
     SetUniform1i("specularMap", 1);
 }
 

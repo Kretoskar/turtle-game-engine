@@ -5,10 +5,10 @@
 
 #include "glm/glm.hpp"
 
-class Texture;
-
 namespace Turtle
 {
+    class Texture;
+
     class Shader
     {
         std::string _fragmentFilePath;
