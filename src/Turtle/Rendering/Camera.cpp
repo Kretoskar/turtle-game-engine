@@ -20,26 +20,26 @@ glm::vec3 Turtle::Camera::GetVelocity() const
 {
     glm::vec3 retVelocity = glm::vec3(0.0f, 0.0f, 0.0f);
 
-    if (!bCanMove)
+    if (!_canMove)
     {
         return { 0.0f, 0.0f, 0.0f };
     }
 
-    if (bMovingForward)
+    if (_movingForward)
     {
-        retVelocity += Orientation * speed;
+        retVelocity += _orientation * _speed;
     }
-    if (bMovingBackward)
+    if (_movingBackward)
     {
-        retVelocity -= Orientation * speed;
+        retVelocity -= _orientation * _speed;
     }
-    if (bMovingRight)
+    if (_movingRight)
     {
-        retVelocity += GetRightVector() * speed;
+        retVelocity += GetRightVector() * _speed;
     }
-    if (bMovingLeft)
+    if (_movingLeft)
     {
-        retVelocity -= GetRightVector() * speed;
+        retVelocity -= GetRightVector() * _speed;
     }
 
     return retVelocity;
@@ -47,8 +47,8 @@ glm::vec3 Turtle::Camera::GetVelocity() const
 
 void Turtle::Camera::Init()
 {
-    width = Engine::EngineSettings->WindowSetting().Height;
-    height = Engine::EngineSettings->WindowSetting().Width;
+    _width = Engine::EngineSettings->WindowSetting().Height;
+    _height = Engine::EngineSettings->WindowSetting().Width;
 
     TURTLE_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, 0), OnRightMouseButtonClick)
     TURTLE_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE, 0), OnRightMouseButtonRelease)
@@ -70,93 +70,93 @@ void Turtle::Camera::Init()
 
 void Turtle::Camera::Update()
 {
-    Position += GetVelocity();
+    _position += GetVelocity();
 
-    view = glm::lookAt(Position, Position + Orientation, Up);
-    projection = glm::perspective(glm::radians(FOVdeg), static_cast<float>(width) / static_cast<float>(height), nearPlane, farPlane);
+    _view = glm::lookAt(_position, _position + _orientation, _up);
+    _projection = glm::perspective(glm::radians(_FOVdeg), static_cast<float>(_width) / static_cast<float>(_height), _nearPlane, _farPlane);
 }
 
 glm::vec3 Turtle::Camera::GetRightVector() const
 {
-    return glm::normalize(glm::cross(Orientation, Up));
+    return glm::normalize(glm::cross(_orientation, _up));
 }
 
 void Turtle::Camera::OnRightMouseButtonClick(void* event)
 {
-    bCanMove = true;
-    bCanLook = true;
-    glfwSetCursorPos(window->GetGlfwWindow(), (width / 2), (height / 2));
-    glfwSetInputMode(window->GetGlfwWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    _canMove = true;
+    _canLook = true;
+    glfwSetCursorPos(_window->GetGlfwWindow(), (_width / 2), (_height / 2));
+    glfwSetInputMode(_window->GetGlfwWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Turtle::Camera::OnRightMouseButtonRelease(void* event)
 {
-    bCanMove = false;
-    bCanLook = false;
-    glfwSetInputMode(window->GetGlfwWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    _canMove = false;
+    _canLook = false;
+    glfwSetInputMode(_window->GetGlfwWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 void Turtle::Camera::OnForwardPressed(void* payload)
 {
-    bMovingForward = true;
+    _movingForward = true;
 }
 
 void Turtle::Camera::OnForwardReleased(void* payload)
 {
-    bMovingForward = false;
+    _movingForward = false;
 }
 
 void Turtle::Camera::OnBackwardPressed(void* payload)
 {
-    bMovingBackward = true;
+    _movingBackward = true;
 }
 
 void Turtle::Camera::OnBackwardReleased(void* payload)
 {
-    bMovingBackward = false;
+    _movingBackward = false;
 }
 
 void Turtle::Camera::OnRightPressed(void* payload)
 {
-    bMovingRight = true;
+    _movingRight = true;
 }
 
 void Turtle::Camera::OnRightReleased(void* payload)
 {
-    bMovingRight = false;
+    _movingRight = false;
 }
 
 void Turtle::Camera::OnLeftPressed(void* payload)
 {
-    bMovingLeft = true;
+    _movingLeft = true;
 }
 
 void Turtle::Camera::OnLeftReleased(void* payload)
 {
-    bMovingLeft = false;
+    _movingLeft = false;
 }
 
 void Turtle::Camera::OnMouseMoved(void* payload)
 {
-    const int posX = *static_cast<int*>(payload);
-    const int posY = *reinterpret_cast<int*>(static_cast<char*>(payload) + sizeof(int));
+    const int32_t posX = *static_cast<int32_t*>(payload);
+    const int32_t posY = *reinterpret_cast<int32_t*>(static_cast<char*>(payload) + sizeof(int32_t));
 
-    if (!bCanLook) return;
+    if (!_canLook) return;
 
-    const float rotX = sensitivity * static_cast<float>(posY - (height / 2)) / height;
-    const float rotY = sensitivity * static_cast<float>(posX - (width / 2)) / width;
+    const float rotX = _sensitivity * static_cast<float>(posY - (_height / 2)) / _height;
+    const float rotY = _sensitivity * static_cast<float>(posX - (_width / 2)) / _width;
 
-    const glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
+    const glm::vec3 newOrientation = glm::rotate(_orientation, glm::radians(-rotX), glm::normalize(glm::cross(_orientation, _up)));
 
     // Decides whether or not the next vertical Orientation is legal or not
-    if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f) 
-        && abs(glm::angle(newOrientation, -Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
+    if (abs(glm::angle(newOrientation, _up) - glm::radians(90.0f)) <= glm::radians(85.0f) 
+        && abs(glm::angle(newOrientation, -_up) - glm::radians(90.0f)) <= glm::radians(85.0f))
     {
-        Orientation = newOrientation;
+        _orientation = newOrientation;
     }
 
     // Rotates the Orientation left and right
-    Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
+    _orientation = glm::rotate(_orientation, glm::radians(-rotY), _up);
 
-    glfwSetCursorPos(window->GetGlfwWindow(), (width / 2), (height / 2));
+    glfwSetCursorPos(_window->GetGlfwWindow(), (_width / 2), (_height / 2));
 }

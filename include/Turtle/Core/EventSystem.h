@@ -54,7 +54,7 @@ namespace Turtle
             if (lookupMap.count(lookupKey) == 0)
             {
                 char buffer[100];
-                int size = sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
+                sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
                 lookupMap[lookupKey] = buffer;
             }
 
@@ -73,7 +73,7 @@ namespace Turtle
             if (lookupMap.count(lookupKey) == 0)
             {
                 char buffer[100];
-                int size = sprintf_s(buffer, "Key%i%i%i", key, action, mods);
+                sprintf_s(buffer, "Key%i%i%i", key, action, mods);
                 lookupMap[lookupKey] = buffer;
             }
 
@@ -86,7 +86,7 @@ namespace Turtle
     {
         struct MousePositionEventPayload
         {
-            int posX, posY;
+            int32_t posX, posY;
         };
 
         static TurtleString Type()

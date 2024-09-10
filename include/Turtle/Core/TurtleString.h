@@ -12,29 +12,29 @@ namespace Turtle
     {
     public:
         TurtleString()
-            : hash(hashTableSize + 1) {}
+            : _hash(hashTableSize + 1) {}
 
         TurtleString(const char* s)
-            : hash(Hash(s)) {}
+            : _hash(Hash(s)) {}
 
         TurtleString(std::string s)
-            : hash(Hash(s.c_str())) {}
+            : _hash(Hash(s.c_str())) {}
 
     private:
-        unsigned hash;
+        uint32_t _hash;
 
     public:
         const char* Get() const
         {
-            return hashTable[hash];
+            return hashTable[_hash];
         }
 
     private:
         // hash using prime numbers
-        static constexpr unsigned Hash(const char* s)
+        static constexpr uint32_t Hash(const char* s)
         {
-            unsigned h = 37;
-            unsigned size = 0;
+            uint32_t h = 37;
+            uint32_t size = 0;
 
             while (*s)
             {
@@ -87,19 +87,19 @@ namespace Turtle
             return h;
         }
 
-        static constexpr unsigned hashTableSize = 65536;
-        static constexpr unsigned hashTableMaxStringLenght = 256;
+        static constexpr uint32_t hashTableSize = 65536;
+        static constexpr uint32_t hashTableMaxStringLenght = 256;
         static char hashTable[hashTableSize][hashTableMaxStringLenght];
 
     public:
         bool operator==(TurtleString&& other) const
         {
-            return other.hash == hash;
+            return other._hash == _hash;
         }
 
         bool operator<(const TurtleString other) const
         {
-            return hash < other.hash;
+            return _hash < other._hash;
         }
     };
 }

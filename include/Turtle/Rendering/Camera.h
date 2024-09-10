@@ -9,37 +9,37 @@ namespace Turtle
 
     class Camera
     {
-        glm::vec3 Position;
-        glm::vec3 Orientation = glm::vec3(-0.5f, -0.5f, -0.5f);
-        glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
+        glm::vec3 _position;
+        glm::vec3 _orientation = glm::vec3(-0.5f, -0.5f, -0.5f);
+        glm::vec3 _up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-        glm::mat4 view = glm::mat4(1.0f);
-        glm::mat4 projection = glm::mat4(1.0f);
+        glm::mat4 _view = glm::mat4(1.0f);
+        glm::mat4 _projection = glm::mat4(1.0f);
 
-        int width = 1920;
-        int height = 1080;
+        int _width = 1920;
+        int _height = 1080;
 
-        float speed = 0.015f;
-        float sensitivity = 100.0f;
+        float _speed = 0.015f;
+        float _sensitivity = 100.0f;
 
-        float FOVdeg = 120;
-        float nearPlane = 0.01f;
-        float farPlane = 1000;
+        float _FOVdeg = 120;
+        float _nearPlane = 0.01f;
+        float _farPlane = 1000;
 
-        Window* window;
-        bool bCanMove = false;
-        bool bCanLook = false;
+        Window* _window;
+        bool _canMove = false;
+        bool _canLook = false;
 
-        bool bMovingForward = false;
-        bool bMovingBackward = false;
-        bool bMovingLeft = false;
-        bool bMovingRight = false;
+        bool _movingForward = false;
+        bool _movingBackward = false;
+        bool _movingLeft = false;
+        bool _movingRight = false;
 
         glm::vec3 GetVelocity() const;
 
     public:
         Camera(Window* inWindow, glm::vec3 position)
-            : window(inWindow), Position(position) {}
+            : _window(inWindow), _position(position) {}
         void Init();
         void Update();
 
@@ -62,8 +62,8 @@ namespace Turtle
 
         void OnMouseMoved(void* payload);
 
-        glm::mat4 GetVPMatrix() const { return projection * view; }
+        glm::mat4 GetVPMatrix() const { return _projection * _view; }
 
-        glm::vec3 GetPosition() const { return Position; }
+        glm::vec3 GetPosition() const { return _position; }
     };
 }

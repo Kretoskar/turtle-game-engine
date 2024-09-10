@@ -25,6 +25,6 @@ namespace Turtle
 		static DebugRenderer* DebugRenderer;
 
 	private:
-		static constexpr char* EngineSettingsJsonPath = "EngineSettings.json";
+		static constexpr char* _engineSettingsJsonPath = "EngineSettings.json";
 	};
 }

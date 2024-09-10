@@ -77,20 +77,20 @@ namespace Turtle
             }
         }
 
-        static void SetLogLevel(unsigned int inLogLevel)
+        static void SetLogLevel(uint16_t inLogLevel)
         {
             logLevel = inLogLevel;
         }
 
-        static unsigned int logLevel;
-        static unsigned int logError;
-        static unsigned int logWarning;
-        static unsigned int logMessage;
+        static uint16_t logLevel;
+        static uint16_t logError;
+        static uint16_t logWarning;
+        static uint16_t logMessage;
         static bool logToFile;
 
-        static constexpr unsigned int loggedLineBufferMaxCount = 16;
+        static constexpr uint16_t loggedLineBufferMaxCount = 16;
         static std::string logLines[loggedLineBufferMaxCount];
         static LogVerbosity logLinesVerbosity[loggedLineBufferMaxCount];
-        static unsigned int loggedLineBufferCurrCount;
+        static uint16_t loggedLineBufferCurrCount;
     };
 }

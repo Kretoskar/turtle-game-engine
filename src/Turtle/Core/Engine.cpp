@@ -28,7 +28,7 @@ bool Turtle::Engine::Init()
 	}
 
 	EngineInstance = new Engine();
-	EngineSettings = new Turtle::EngineSettings(EngineSettingsJsonPath);
+	EngineSettings = new Turtle::EngineSettings(_engineSettingsJsonPath);
 
 	Turtle::Dispatcher::Init();
 	MainWindow = new Turtle::Window();
