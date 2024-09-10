@@ -8,6 +8,7 @@
 #include "Turtle/Rendering/UserInterface.h"
 #include "Turtle/Rendering/Renderer.h"
 #include "Turtle/Rendering/Camera.h"
+#include "Turtle/Rendering/DebugRenderer.h"
 
 Turtle::Engine* Turtle::Engine::EngineInstance = nullptr;
 Turtle::EngineSettings* Turtle::Engine::EngineSettings = nullptr;
@@ -15,6 +16,7 @@ Turtle::Window* Turtle::Engine::MainWindow = nullptr;
 Turtle::UserInterface* Turtle::Engine::UserInterface = nullptr;
 Turtle::Renderer* Turtle::Engine::Renderer = nullptr;
 Turtle::Camera* Turtle::Engine::Camera = nullptr;
+Turtle::DebugRenderer* Turtle::Engine::DebugRenderer = nullptr;
 
 bool Turtle::Engine::Init()
 {
@@ -36,14 +38,20 @@ bool Turtle::Engine::Init()
 		return false;
 	}
 
+	Camera = new Turtle::Camera(MainWindow, glm::vec3(0.0f, 1.0f, 0.0f));
+	Camera->Init();
+
 	Renderer = new Turtle::Renderer();
 	if (!Renderer->Init())
 	{
 		return false;
 	}
 
-	Camera = new Turtle::Camera(MainWindow, glm::vec3(0.0f, 1.0f, 0.0f));
-	Camera->Init();
+	DebugRenderer = new Turtle::DebugRenderer();
+	if (!DebugRenderer->Init())
+	{
+		return false;
+	}
 
 	UserInterface = new Turtle::UserInterface();
 	if (!UserInterface->Init(MainWindow->GetGlfwWindow()))
@@ -60,6 +68,7 @@ void Turtle::Engine::Loop()
 	{
 		Camera->Update();
 		Renderer->Render();
+		DebugRenderer->Render();
 
 		UserInterface->CreateFrame();
 		UserInterface->Render();
@@ -74,6 +83,7 @@ void Turtle::Engine::ShutDown()
 	delete EngineInstance;
 	delete EngineSettings;
 	delete Renderer;
+	delete DebugRenderer;
 
 	UserInterface->Cleanup();
 	delete UserInterface;
