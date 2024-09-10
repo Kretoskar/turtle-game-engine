@@ -4,6 +4,8 @@
 #include "Turtle/Rendering/ElementBufferObject.h"
 #include "Turtle/Rendering/VertexArrayObject.h"
 #include "Turtle/Rendering/Texture.h"
+#include "Turtle/Rendering/Material.h"
+#include "Turtle/Rendering/Mesh.h"
 
 #include <memory>
 
@@ -16,9 +18,8 @@ namespace Turtle
 		void Render();
 
 		std::unique_ptr<Shader> _shader;
-		std::unique_ptr<VertexBufferObject> _vbo;
-		std::unique_ptr<ElementBufferObject> _ebo;
-		std::unique_ptr<VertexArrayObject> _vao;
 		std::unique_ptr<Texture> _texture;
+		std::unique_ptr<Material> _material;
+		std::unique_ptr<Mesh> _mesh;
 	};
 }
