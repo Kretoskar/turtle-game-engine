@@ -30,26 +30,26 @@ unsigned indices[] =
 
 bool Turtle::Renderer::Init()
 {
-    texture = std::make_unique<Texture>("base.png", GL_TEXTURE0, GL_RGB);
-    texture->Bind();
+    _texture = std::make_unique<Texture>("base.png", GL_TEXTURE0, GL_RGB);
+    _texture->Bind();
 
-    shader = std::make_unique<Shader>("Shaders/pbr.frag", "Shaders/pbr.vert");
-    shader->Bind();
-    shader->AssignDiffuseMap(*texture.get());
+    _shader = std::make_unique<Shader>("Shaders/pbr.frag", "Shaders/pbr.vert");
+    _shader->Bind();
+    _shader->AssignDiffuseMap(*_texture.get());
 
     
-    vao = std::make_unique<VertexArrayObject>();
-    vao->Bind();
+    _vao = std::make_unique<VertexArrayObject>();
+    _vao->Bind();
 
-    vbo = std::make_unique<VertexBufferObject>(vertices, sizeof(vertices));
-    ebo = std::make_unique<ElementBufferObject>(indices, sizeof(indices));
+    _vbo = std::make_unique<VertexBufferObject>(vertices, sizeof(vertices));
+    _ebo = std::make_unique<ElementBufferObject>(indices, sizeof(indices));
 
     // position
-    vao->LinkAttrib(*vbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
+    _vao->LinkAttrib(*_vbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
     // color
-    vao->LinkAttrib(*vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    _vao->LinkAttrib(*_vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     // UV
-    vao->LinkAttrib(*vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    _vao->LinkAttrib(*_vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
 	glClearColor(
 		Turtle::Engine::EngineSettings->WindowSetting().BgColor.r / 255,
@@ -73,11 +73,11 @@ void Turtle::Renderer::Render()
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
 
-    shader->SetModelMatrix(model);
-    shader->SetVPMatrix(Engine::Camera->GetVPMatrix());
+    _shader->SetModelMatrix(model);
+    _shader->SetVPMatrix(Engine::Camera->GetVPMatrix());
 
-    shader->Bind();
-    texture->Bind();
-    vao->Bind();
+    _shader->Bind();
+    _texture->Bind();
+    _vao->Bind();
     glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
 }

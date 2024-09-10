@@ -4,7 +4,7 @@
 #include "Turtle/Core/Logger.h"
 
 #define FIND_HASH_CONFLICTS
-#define SPOT_REHASHING
+//#define SPOT_REHASHING
 
 namespace Turtle
 {
@@ -19,6 +19,8 @@ namespace Turtle
 
         TurtleString(std::string s)
             : _hash(Hash(s.c_str())) {}
+
+        uint32_t GetHash() const { return _hash; }
 
     private:
         uint32_t _hash;
@@ -97,12 +99,25 @@ namespace Turtle
             return other._hash == _hash;
         }
 
+        bool operator==(const TurtleString& other) const
+        {
+            return (other._hash == _hash);
+        }
+
         bool operator<(const TurtleString other) const
         {
             return _hash < other._hash;
         }
+
+        struct TurtleStringHasher
+        {
+            std::size_t operator()(const Turtle::TurtleString& k) const
+            {
+                return k.GetHash();
+            }
+        };
     };
 }
 
 #undef FIND_HASH_CONFLICTS
-#undef SPOT_REHASHING
+//#undef SPOT_REHASHING

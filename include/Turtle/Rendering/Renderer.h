@@ -15,10 +15,10 @@ namespace Turtle
 		bool Init();
 		void Render();
 
-		std::unique_ptr<Shader> shader;
-		std::unique_ptr<VertexBufferObject> vbo;
-		std::unique_ptr<ElementBufferObject> ebo;
-		std::unique_ptr<VertexArrayObject> vao;
-		std::unique_ptr<Texture> texture;
+		std::unique_ptr<Shader> _shader;
+		std::unique_ptr<VertexBufferObject> _vbo;
+		std::unique_ptr<ElementBufferObject> _ebo;
+		std::unique_ptr<VertexArrayObject> _vao;
+		std::unique_ptr<Texture> _texture;
 	};
 }
