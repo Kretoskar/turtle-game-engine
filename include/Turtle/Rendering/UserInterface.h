@@ -16,5 +16,6 @@ namespace Turtle
         void CreateConsoleWidget();
         void CreateSceneWidget();
         void CreateDetailsWidget();
+        void CreateToolbarWidget();
     };
 }

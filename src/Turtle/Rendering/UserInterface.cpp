@@ -26,6 +26,7 @@ void Turtle::UserInterface::CreateFrame()
     CreateConsoleWidget();
     CreateSceneWidget();
     CreateDetailsWidget();
+    CreateToolbarWidget();
 }
 
 void Turtle::UserInterface::Render()
@@ -111,5 +112,24 @@ void Turtle::UserInterface::CreateDetailsWidget()
     ImGui::SetNextWindowSize(DetailsWindowSize, ImGuiCond_Always);
     ImGui::Begin("Details", nullptr, flags);
 
+    ImGui::End();
+}
+
+void Turtle::UserInterface::CreateToolbarWidget()
+{
+    ImVec2 TopWindowSize = ImGui::GetMainViewport()->Size;
+    TopWindowSize.x /= 5;
+    TopWindowSize.x *= 3;
+    TopWindowSize.y = (TopWindowSize.y / 16);
+
+    ImGuiWindowFlags flags = 0;
+
+    ImGui::SetNextWindowBgAlpha(0.8f);
+    ImGui::SetNextWindowPos(ImVec2(ImGui::GetMainViewport()->Size.x / 2, 0.0f), ImGuiCond_Always, ImVec2(0.5f, 0.0f));
+    ImGui::SetNextWindowSize(TopWindowSize, ImGuiCond_Always);
+    ImGui::Begin("Toolbar", nullptr, flags);
+    ImGui::Button("Save", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32));
+    ImGui::SameLine();
+    ImGui::Button("Load", ImVec2(ImGui::GetMainViewport()->Size.x / 16, ImGui::GetMainViewport()->Size.y / 32));
     ImGui::End();
 }
