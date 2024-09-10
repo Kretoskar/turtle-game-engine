@@ -5,13 +5,13 @@
 #include "stb_image/stb_image.h"
 #include "Turtle/Core/Logger.h"
 
-Turtle::Texture::Texture(const std::string& path, unsigned unit, unsigned format, unsigned pixelType, unsigned texType)
+Turtle::Texture::Texture(TurtleString path, unsigned unit, unsigned format, unsigned pixelType, unsigned texType)
     : _type(texType), _unit(unit)
 {
     char result[100];
 
     strcpy(result, RESOURCES_PATH);
-    strcat(result, path.c_str());
+    strcat(result, path.Get());
 
     stbi_set_flip_vertically_on_load(true);
     unsigned char* _bytes = stbi_load(result, &_width, &_height, &_numColCh, 0);

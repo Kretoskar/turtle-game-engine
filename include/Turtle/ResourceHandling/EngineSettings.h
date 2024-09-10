@@ -18,7 +18,7 @@ namespace Turtle
 			glm::vec3 BgColor;
 		};
 
-		const Window& WindowSetting() const { return _windowSettings; }
+		const Window& GetWindowSettings() const { return _windowSettings; }
 
 	private:
 		Window _windowSettings;

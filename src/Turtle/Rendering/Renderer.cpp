@@ -52,9 +52,9 @@ bool Turtle::Renderer::Init()
     _vao->LinkAttrib(*_vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
 	glClearColor(
-		Turtle::Engine::EngineSettings->WindowSetting().BgColor.r / 255,
-		Turtle::Engine::EngineSettings->WindowSetting().BgColor.g / 255,
-		Turtle::Engine::EngineSettings->WindowSetting().BgColor.b / 255,
+		Turtle::Engine::EngineSettings->GetWindowSettings().BgColor.r / 255,
+		Turtle::Engine::EngineSettings->GetWindowSettings().BgColor.g / 255,
+		Turtle::Engine::EngineSettings->GetWindowSettings().BgColor.b / 255,
 		0
 	);
 

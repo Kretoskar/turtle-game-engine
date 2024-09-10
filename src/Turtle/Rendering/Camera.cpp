@@ -47,8 +47,8 @@ glm::vec3 Turtle::Camera::GetVelocity() const
 
 void Turtle::Camera::Init()
 {
-    _width = Engine::EngineSettings->WindowSetting().Height;
-    _height = Engine::EngineSettings->WindowSetting().Width;
+    _width = Engine::EngineSettings->GetWindowSettings().Height;
+    _height = Engine::EngineSettings->GetWindowSettings().Width;
 
     TURTLE_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, 0), OnRightMouseButtonClick)
     TURTLE_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE, 0), OnRightMouseButtonRelease)

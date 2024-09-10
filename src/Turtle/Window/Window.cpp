@@ -23,9 +23,9 @@ bool Turtle::Window::Init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	_width = Turtle::Engine::EngineSettings->WindowSetting().Width;
-	_height = Turtle::Engine::EngineSettings->WindowSetting().Height;
-	_name = Turtle::Engine::EngineSettings->WindowSetting().Name;
+	_width = Turtle::Engine::EngineSettings->GetWindowSettings().Width;
+	_height = Turtle::Engine::EngineSettings->GetWindowSettings().Height;
+	_name = Turtle::Engine::EngineSettings->GetWindowSettings().Name;
 
 	_glfwWindow = glfwCreateWindow(
 		_width,
