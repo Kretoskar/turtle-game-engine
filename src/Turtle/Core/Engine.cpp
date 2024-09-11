@@ -1,10 +1,14 @@
+#include <iostream>
+
 #include "Turtle/Core/Engine.h"
 #include "Turtle/Core/Logger.h"
 #include "Turtle/Core/EventSystem.h"
-#include <iostream>
 
 #include "Turtle/ResourceHandling/EngineSettings.h"
+#include "Turtle/ResourceHandling/AssetsRegistry.h"
+
 #include "Turtle/Window/Window.h"
+
 #include "Turtle/Rendering/UserInterface.h"
 #include "Turtle/Rendering/Renderer.h"
 #include "Turtle/Rendering/Camera.h"
@@ -17,6 +21,7 @@ Turtle::UserInterface* Turtle::Engine::UserInterface = nullptr;
 Turtle::Renderer* Turtle::Engine::Renderer = nullptr;
 Turtle::Camera* Turtle::Engine::Camera = nullptr;
 Turtle::DebugRenderer* Turtle::Engine::DebugRenderer = nullptr;
+Turtle::AssetsRegistry* Turtle::Engine::AssetsRegistry = nullptr;
 
 bool Turtle::Engine::Init()
 {
@@ -37,6 +42,9 @@ bool Turtle::Engine::Init()
 	{
 		return false;
 	}
+
+	AssetsRegistry = new Turtle::AssetsRegistry();
+	AssetsRegistry->Init();
 
 	Camera = new Turtle::Camera(MainWindow, glm::vec3(0.0f, 1.0f, 0.0f));
 	Camera->Init();
@@ -87,6 +95,9 @@ void Turtle::Engine::ShutDown()
 
 	UserInterface->Cleanup();
 	delete UserInterface;
+
+	AssetsRegistry->Cleanup();
+	delete AssetsRegistry;
 
 	Turtle::Dispatcher::Cleanup();
 }
