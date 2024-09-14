@@ -32,6 +32,18 @@ namespace Turtle
 		std::set<Entity> _entities{};
 	};
 
+	class TransformSystem : public System
+	{
+	public:
+		void Update()
+		{
+			for (Entity e : _entities)
+			{
+				TURTLE_LOG_MESSAGE("sghdjfas")
+			}
+		}
+	};
+
 	class IComponentArray
 	{
 	public:
@@ -47,7 +59,8 @@ namespace Turtle
 		{
 			size_t idx = componentArray.size();
 			entityToIndexMap[entity] = idx;
-			componentArray.push_back(T);
+			indexToEntityMap[idx] = entity;
+			componentArray.push_back(component);
 		}
 
 		void Remove(Entity entity)
@@ -58,16 +71,36 @@ namespace Turtle
 			}
 
 			size_t Idx = entityToIndexMap[entity];
-			Entity LastEntity = componentArray.back();
+			T LastComp = componentArray.back();
+			Entity LastEntity = indexToEntityMap[componentArray.size() - 1];
 
 			entityToIndexMap.erase(entity);
+			indexToEntityMap.erase(Idx);
 
-			componentArray[Idx] = LastEntity;
+			componentArray[Idx] = LastComp;
 			componentArray.pop_back();
+
+
 			entityToIndexMap[LastEntity] = Idx;
+			indexToEntityMap[Idx] = LastEntity;
+		}
+
+		void EntityDestroyed(Entity entity) override
+		{
+			if (entityToIndexMap.find(entity) != entityToIndexMap.end())
+			{
+				// Remove the entity's component if it existed
+				Remove(entity);
+			}
+		}
+
+		T& GetData(Entity entity)
+		{
+			return componentArray[entityToIndexMap[entity]];
 		}
 
 		std::unordered_map<Entity, size_t> entityToIndexMap;
+		std::unordered_map<size_t, Entity> indexToEntityMap;
 
 		std::vector<T> componentArray;
 	};
@@ -76,6 +109,12 @@ namespace Turtle
 	{
 		// TODO: maybe avoid inheritance by using typeid instead?
 		virtual TurtleString TypeName() const { return TurtleString::None; }
+	};
+
+	struct TransformComponent : public Component
+	{
+		float x{}, y{}, z{};
+		virtual TurtleString TypeName() const { return TurtleString("Transform"); }
 	};
 
 	class ECS
@@ -89,10 +128,12 @@ namespace Turtle
 			}
 		}
 
+		template <typename T>
 		void RegisterComponent(TurtleString compName)
 		{
 			CompNameToType[compName] = CurrComponentType;
 			CurrComponentType++;
+			ComponentArrays.insert({ compName, std::make_shared<ComponentArray<T>>() });
 		}
 
 		Entity CreateEntity()
@@ -116,11 +157,20 @@ namespace Turtle
 			}
 		}
 
-		void AddComponent(Entity entity, const Component& component)
+		template<typename T>
+		std::shared_ptr<ComponentArray<T>> GetComponentArray(TurtleString name)
 		{
-			ComponentType compType = CompNameToType[component.TypeName()];
+			return std::static_pointer_cast<ComponentArray<T>>(ComponentArrays[name]);
+		}
+
+		template <typename T>
+		void AddComponent(Entity entity, const T& component, TurtleString CompName)
+		{
+			ComponentType compType = CompNameToType[CompName];
 
 			Signatures[entity].set(compType, true);
+
+			GetComponentArray<T>(component.TypeName())->Insert(entity, component);
 
 			for (System& system : Systems)
 			{
@@ -130,6 +180,8 @@ namespace Turtle
 				}
 			}
 		}
+
+
 
 		void RemoveComponent(Entity entity, ComponentType compType)
 		{
@@ -153,11 +205,5 @@ namespace Turtle
 		std::unordered_map<TurtleString, ComponentType, TurtleString::TurtleStringHasher> CompNameToType{};
 		Entity LivingEntityCount{};
 		std::unordered_map<TurtleString, std::shared_ptr<IComponentArray>, TurtleString::TurtleStringHasher> ComponentArrays{};
-
-		template<typename T>
-		std::shared_ptr<ComponentArray<T>> GetComponentArray(TurtleString name)
-		{
-			return std::static_pointer_cast<ComponentArray<T>>(mComponentArrays[name]);
-		}
 	};
 }
