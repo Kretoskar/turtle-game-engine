@@ -39,15 +39,39 @@ namespace Turtle
 
 	class ECS
 	{
+		ECS()
+		{
+			for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
+			{
+				AvailableEntities.push(entity);
+			}
+		}
+
 		void RegisterComponent(Component comp)
 		{
 			CompNameToType[comp.TypeName()] = CurrComponentType;
 			CurrComponentType++;
 		}
 
-		void AddEntity()
+		Entity CreateEntity()
 		{
+			Entity id = AvailableEntities.front();
+			AvailableEntities.pop();
+			LivingEntityCount++;
 
+			return id;
+		}
+
+		void DestroyEntity(Entity entity)
+		{
+			Signatures[entity].reset();
+			AvailableEntities.push(entity);
+			LivingEntityCount--;
+
+			for (System& system : Systems)
+			{
+				system._entities.erase(entity);
+			}
 		}
 
 		void AddComponent(Entity entity, const Component& component)
@@ -79,10 +103,12 @@ namespace Turtle
 				}
 			}
 		}
-		// TODO: available entities
+		
+		std::queue<Entity> AvailableEntities{};
 		std::array<Signature, MAX_ENTITIES> Signatures {};
 		std::vector<System> Systems{};
 		ComponentType CurrComponentType{};
 		std::unordered_map<TurtleString, ComponentType, TurtleString::TurtleStringHasher> CompNameToType{};
+		Entity LivingEntityCount{};
 	};
 }
