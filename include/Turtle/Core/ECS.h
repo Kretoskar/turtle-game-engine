@@ -32,13 +32,55 @@ namespace Turtle
 		std::set<Entity> _entities{};
 	};
 
+	class IComponentArray
+	{
+	public:
+		virtual ~IComponentArray() = default;
+		virtual void EntityDestroyed(Entity entity) = 0;
+	};
+
+	template<typename T>
+	class ComponentArray : public IComponentArray
+	{
+	public:
+		void Insert(Entity entity, T component)
+		{
+			size_t idx = componentArray.size();
+			entityToIndexMap[entity] = idx;
+			componentArray.push_back(T);
+		}
+
+		void Remove(Entity entity)
+		{
+			if (entityToIndexMap.find(entity) == entityToIndexMap.end())
+			{
+				return;
+			}
+
+			size_t Idx = entityToIndexMap[entity];
+			Entity LastEntity = componentArray.back();
+
+			entityToIndexMap.erase(entity);
+
+			componentArray[Idx] = LastEntity;
+			componentArray.pop_back();
+			entityToIndexMap[LastEntity] = Idx;
+		}
+
+		std::unordered_map<Entity, size_t> entityToIndexMap;
+
+		std::vector<T> componentArray;
+	};
+
 	struct Component
 	{
+		// TODO: maybe avoid inheritance by using typeid instead?
 		virtual TurtleString TypeName() const { return TurtleString::None; }
 	};
 
 	class ECS
 	{
+	public:
 		ECS()
 		{
 			for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
@@ -47,9 +89,9 @@ namespace Turtle
 			}
 		}
 
-		void RegisterComponent(Component comp)
+		void RegisterComponent(TurtleString compName)
 		{
-			CompNameToType[comp.TypeName()] = CurrComponentType;
+			CompNameToType[compName] = CurrComponentType;
 			CurrComponentType++;
 		}
 
@@ -110,5 +152,12 @@ namespace Turtle
 		ComponentType CurrComponentType{};
 		std::unordered_map<TurtleString, ComponentType, TurtleString::TurtleStringHasher> CompNameToType{};
 		Entity LivingEntityCount{};
+		std::unordered_map<TurtleString, std::shared_ptr<IComponentArray>, TurtleString::TurtleStringHasher> ComponentArrays{};
+
+		template<typename T>
+		std::shared_ptr<ComponentArray<T>> GetComponentArray(TurtleString name)
+		{
+			return std::static_pointer_cast<ComponentArray<T>>(mComponentArrays[name]);
+		}
 	};
 }
