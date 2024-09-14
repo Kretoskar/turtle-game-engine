@@ -32,15 +32,28 @@ namespace Turtle
 		std::set<Entity> _entities{};
 	};
 
+	struct Component
+	{
+		virtual TurtleString TypeName() const { return TurtleString::None; }
+	};
+
 	class ECS
 	{
+		void RegisterComponent(Component comp)
+		{
+			CompNameToType[comp.TypeName()] = CurrComponentType;
+			CurrComponentType++;
+		}
+
 		void AddEntity()
 		{
 
 		}
 
-		void AddComponent(Entity entity, ComponentType compType)
+		void AddComponent(Entity entity, const Component& component)
 		{
+			ComponentType compType = CompNameToType[component.TypeName()];
+
 			Signatures[entity].set(compType, true);
 
 			for (System& system : Systems)
@@ -66,8 +79,10 @@ namespace Turtle
 				}
 			}
 		}
-
+		// TODO: available entities
 		std::array<Signature, MAX_ENTITIES> Signatures {};
 		std::vector<System> Systems{};
+		ComponentType CurrComponentType{};
+		std::unordered_map<TurtleString, ComponentType, TurtleString::TurtleStringHasher> CompNameToType{};
 	};
 }
