@@ -22,6 +22,8 @@ namespace Turtle
 
         uint32_t GetHash() const { return _hash; }
 
+        static TurtleString None;
+
     private:
         uint32_t _hash;
 
