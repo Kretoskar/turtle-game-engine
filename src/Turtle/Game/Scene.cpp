@@ -7,7 +7,7 @@
 
 void Turtle::Scene::Init(ECS& ecs)
 {
-	for (uint32_t i = 0; i < 1000; i++)
+	for (uint32_t i = 0; i < 10000; i++)
 	{
 		Entity e = ecs.CreateEntity();
 		TransformComponent& t = ecs.AddComponent<TransformComponent>(e);
