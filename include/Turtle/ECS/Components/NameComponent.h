@@ -4,8 +4,8 @@
 
 namespace Turtle
 {
-	struct TransformComponent
+	struct NameComponent
 	{
-		float x{}, y{}, z{};
+		TurtleString Name;
 	};
 }
