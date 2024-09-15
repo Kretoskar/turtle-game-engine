@@ -215,7 +215,7 @@ namespace Turtle
 		{
 			for (Entity e : _entities)
 			{
-				TransformComponent comp = ecs->GetComponent<TransformComponent>(e, TransformComponent());
+				TransformComponent& comp = ecs->GetComponent<TransformComponent>(e, TransformComponent());
 				comp.x += 1;
 			}
 		}
