@@ -8,4 +8,14 @@ namespace Turtle
 	{
 		float x{}, y{}, z{};
 	};
+
+	struct TestCompA
+	{
+		float x{}, y{}, z{};
+	};
+
+	struct TestCompB
+	{
+		float x{}, y{}, z{};
+	};
 }
