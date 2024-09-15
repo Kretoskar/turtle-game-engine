@@ -9,6 +9,7 @@ namespace Turtle
 	class Camera;
 	class DebugRenderer;
 	class AssetsRegistry;
+	class Game;
 
 	class Engine
 	{
@@ -25,6 +26,7 @@ namespace Turtle
 		static Camera* Camera;
 		static DebugRenderer* DebugRenderer;
 		static AssetsRegistry* AssetsRegistry;
+		static Game* Game;
 
 	private:
 		static constexpr char* _engineSettingsJsonPath = "EngineSettings.json";

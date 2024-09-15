@@ -14,6 +14,8 @@
 #include "Turtle/Rendering/Camera.h"
 #include "Turtle/Rendering/DebugRenderer.h"
 
+#include "Turtle/Game/Game.h"
+
 Turtle::Engine* Turtle::Engine::EngineInstance = nullptr;
 Turtle::EngineSettings* Turtle::Engine::EngineSettings = nullptr;
 Turtle::Window* Turtle::Engine::MainWindow = nullptr;
@@ -22,6 +24,7 @@ Turtle::Renderer* Turtle::Engine::Renderer = nullptr;
 Turtle::Camera* Turtle::Engine::Camera = nullptr;
 Turtle::DebugRenderer* Turtle::Engine::DebugRenderer = nullptr;
 Turtle::AssetsRegistry* Turtle::Engine::AssetsRegistry = nullptr;
+Turtle::Game* Turtle::Engine::Game = nullptr;
 
 bool Turtle::Engine::Init()
 {
@@ -66,6 +69,9 @@ bool Turtle::Engine::Init()
 	{
 		return false;
 	}
+
+	Game = new Turtle::Game();
+	Game->InitInEditor();
 
 	return true;
 }
