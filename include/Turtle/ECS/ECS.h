@@ -75,13 +75,13 @@ namespace Turtle
 		}
 
 		template <typename T>
-		void AddComponent(Entity entity, const T& component)
+		void AddComponent(Entity entity)
 		{
 			ComponentType compType = CompNameToType[typeid(T).name()];
 
 			Signatures[entity].set(compType, true);
 
-			GetComponentArray<T>(typeid(T).name())->Insert(entity, component);
+			GetComponentArray<T>(typeid(T).name())->Insert(entity, T());
 
 			for (System* system : Systems)
 			{

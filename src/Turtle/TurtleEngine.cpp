@@ -12,7 +12,6 @@ int main()
 	Turtle::ECS ecs;
 	
 	// First register components
-	TransformComponent comp;
 	ecs.RegisterComponent<Turtle::TransformComponent>();
 
 	// Then register component in system
@@ -22,7 +21,8 @@ int main()
 
 	// Then add comp to entity
 	Entity e = ecs.CreateEntity();
-	ecs.AddComponent<TransformComponent>(e, comp);
+	ecs.AddComponent<TransformComponent>(e);
+	TransformComponent& t = ecs.GetComponent<TransformComponent>(e);
 
 	for (int i = 0; i < 100; i++)
 	{
