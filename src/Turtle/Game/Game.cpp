@@ -11,7 +11,6 @@ namespace Turtle
 		_ecs.RegisterComponent<TestCompA>();
 
 		// Then register component in system
-		
 		_ecs.RegisterSystem(&_transformSys);
 		_ecs.RegisterComponentInSystem<TransformComponent>(_transformSys);
 
@@ -23,15 +22,7 @@ namespace Turtle
 
 	void Game::InitInEditor()
 	{
-		Entity e = _ecs.CreateEntity();
-		TransformComponent& t = _ecs.AddComponent<TransformComponent>(e);
-		t.x = 10;
-
-		Entity e2 = _ecs.CreateEntity();
-		TransformComponent& tTest = _ecs.AddComponent<TransformComponent>(e2);
-		tTest.x = 0;
-		TestCompA& a = _ecs.AddComponent<TestCompA>(e2);
-		a.x = 1000;
+		_scene.Init(_ecs);
 
 		for (int i = 0; i < 100; i++)
 		{

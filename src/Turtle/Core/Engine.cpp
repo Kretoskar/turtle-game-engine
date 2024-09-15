@@ -93,6 +93,7 @@ void Turtle::Engine::Loop()
 
 void Turtle::Engine::ShutDown()
 {
+	delete Game;
 	delete MainWindow;
 	delete EngineInstance;
 	delete EngineSettings;
