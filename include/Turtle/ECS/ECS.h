@@ -10,31 +10,13 @@
 
 #include "Turtle/ECS/ECSTypes.h"
 #include "Turtle/ECS/ComponentArray.h"
+#include "Turtle/ECS/System.h"
+#include "Turtle/ECS/Component.h"
+
 #include "Turtle/Core/TurtleString.h"
 
 namespace Turtle
 {
-
-	class System
-	{
-	public:
-
-		Signature _sig{};
-		std::set<Entity> _entities{};
-	};
-
-	struct Component
-	{
-		// TODO: maybe avoid inheritance by using typeid instead?
-		virtual TurtleString TypeName() const { return TurtleString::None; }
-	};
-
-	struct TransformComponent : public Component
-	{
-		float x{}, y{}, z{};
-		virtual TurtleString TypeName() const { return TurtleString("Transform"); }
-	};
-
 	class ECS
 	{
 	public:
@@ -145,27 +127,5 @@ namespace Turtle
 		std::unordered_map<TurtleString, ComponentType, TurtleString::TurtleStringHasher> CompNameToType{};
 		Entity LivingEntityCount{};
 		std::unordered_map<TurtleString, std::shared_ptr<IComponentArray>, TurtleString::TurtleStringHasher> ComponentArrays{};
-	};
-
-	class TransformSystem : public System
-	{
-	public:
-		void Update(ECS* ecs)
-		{
-			for (Entity e : _entities)
-			{
-				TransformComponent& comp = ecs->GetComponent<TransformComponent>(e, TransformComponent());
-				comp.x += 1;
-			}
-		}
-
-		void Finish(ECS* ecs)
-		{
-			for (Entity e : _entities)
-			{
-				TransformComponent comp = ecs->GetComponent<TransformComponent>(e, TransformComponent());
-				TURTLE_LOG_MESSAGE("X: %f", comp.x)
-			}
-		}
 	};
 }
