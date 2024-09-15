@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Turtle/Core/ECS.h"
+#include "Turtle/ECS/ECS.h"
 #include "Turtle/Core/Engine.h"
 
 using namespace Turtle;
