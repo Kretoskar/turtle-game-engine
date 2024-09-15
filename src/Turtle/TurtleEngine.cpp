@@ -8,15 +8,26 @@ using namespace Turtle;
 int main()
 {
 	Turtle::ECS ecs;
+	
+	// First register components
 	TransformComponent comp;
 	ecs.RegisterComponent<Turtle::TransformComponent>(comp.TypeName());
 
+	// Then register component in system
+	TransformSystem sys;
+	ecs.RegisterSystem(&sys);
+	ecs.RegisterComponentInSystem(sys, comp);
+
+	// Then add comp to entity
 	Entity e = ecs.CreateEntity();
 	ecs.AddComponent<TransformComponent>(e, comp, comp.TypeName());
 
-	TransformSystem sys;
-	//TODO component type from component
-	sys.RegisterComponent()
+	for (int i = 0; i < 100; i++)
+	{
+		sys.Update(&ecs);
+	}
+
+	sys.Finish(&ecs);
 
 	if (Turtle::Engine::Init())
 	{

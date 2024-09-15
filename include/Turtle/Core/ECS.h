@@ -23,25 +23,9 @@ namespace Turtle
 	class System
 	{
 	public:
-		void RegisterComponent(ComponentType compType)
-		{
-			_sig.set(compType, true);
-		}
 
 		Signature _sig{};
 		std::set<Entity> _entities{};
-	};
-
-	class TransformSystem : public System
-	{
-	public:
-		void Update()
-		{
-			for (Entity e : _entities)
-			{
-				TURTLE_LOG_MESSAGE("sghdjfas")
-			}
-		}
 	};
 
 	class IComponentArray
@@ -151,10 +135,17 @@ namespace Turtle
 			AvailableEntities.push(entity);
 			LivingEntityCount--;
 
-			for (System& system : Systems)
+			for (System* system : Systems)
 			{
-				system._entities.erase(entity);
+				system->_entities.erase(entity);
 			}
+		}
+
+		template<typename T>
+		T& GetComponent(Entity e, const Component& comp)
+		{
+			std::shared_ptr<ComponentArray<T>> compArray = GetComponentArray<T>(comp.TypeName());
+			return compArray->GetData(e);
 		}
 
 		template<typename T>
@@ -172,38 +163,70 @@ namespace Turtle
 
 			GetComponentArray<T>(component.TypeName())->Insert(entity, component);
 
-			for (System& system : Systems)
+			for (System* system : Systems)
 			{
-				if ((system._sig & Signatures[entity]) == system._sig)
+				if ((system->_sig & Signatures[entity]) == system->_sig)
 				{
-					system._entities.insert(entity);
+					system->_entities.insert(entity);
 				}
 			}
 		}
 
+		void RegisterSystem(System* system)
+		{
+			Systems.push_back(system);
 
+			// TODO: iterate over signatures
+		}
 
 		void RemoveComponent(Entity entity, ComponentType compType)
 		{
 			Signatures[entity].set(compType, false);
 
-			for (System& system : Systems)
+			for (System* system : Systems)
 			{
-				system._entities.erase(entity);
+				system->_entities.erase(entity);
 
-				if ((system._sig & Signatures[entity]) == Signatures[entity])
+				if ((system->_sig & Signatures[entity]) == Signatures[entity])
 				{
-					system._entities.insert(entity);
+					system->_entities.insert(entity);
 				}
 			}
+		}
+
+		void RegisterComponentInSystem(System& system, const Component& comp)
+		{
+			system._sig.set(CompNameToType[comp.TypeName()], true);
 		}
 		
 		std::queue<Entity> AvailableEntities{};
 		std::array<Signature, MAX_ENTITIES> Signatures {};
-		std::vector<System> Systems{};
+		std::vector<System*> Systems{};
 		ComponentType CurrComponentType{};
 		std::unordered_map<TurtleString, ComponentType, TurtleString::TurtleStringHasher> CompNameToType{};
 		Entity LivingEntityCount{};
 		std::unordered_map<TurtleString, std::shared_ptr<IComponentArray>, TurtleString::TurtleStringHasher> ComponentArrays{};
+	};
+
+	class TransformSystem : public System
+	{
+	public:
+		void Update(ECS* ecs)
+		{
+			for (Entity e : _entities)
+			{
+				TransformComponent comp = ecs->GetComponent<TransformComponent>(e, TransformComponent());
+				comp.x += 1;
+			}
+		}
+
+		void Finish(ECS* ecs)
+		{
+			for (Entity e : _entities)
+			{
+				TransformComponent comp = ecs->GetComponent<TransformComponent>(e, TransformComponent());
+				TURTLE_LOG_MESSAGE("X: %f", comp.x)
+			}
+		}
 	};
 }
