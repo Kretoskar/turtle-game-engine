@@ -4,9 +4,8 @@
 
 namespace Turtle
 {
-	struct TransformComponent : public Component
+	struct TransformComponent
 	{
 		float x{}, y{}, z{};
-		virtual TurtleString TypeName() const { return TurtleString("Transform"); }
 	};
 }

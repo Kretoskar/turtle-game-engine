@@ -13,16 +13,16 @@ int main()
 	
 	// First register components
 	TransformComponent comp;
-	ecs.RegisterComponent<Turtle::TransformComponent>(comp.TypeName());
+	ecs.RegisterComponent<Turtle::TransformComponent>();
 
 	// Then register component in system
 	TransformSystem sys;
 	ecs.RegisterSystem(&sys);
-	ecs.RegisterComponentInSystem(sys, comp);
+	ecs.RegisterComponentInSystem<TransformComponent>(sys);
 
 	// Then add comp to entity
 	Entity e = ecs.CreateEntity();
-	ecs.AddComponent<TransformComponent>(e, comp, comp.TypeName());
+	ecs.AddComponent<TransformComponent>(e, comp);
 
 	for (int i = 0; i < 100; i++)
 	{

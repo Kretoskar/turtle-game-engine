@@ -11,7 +11,6 @@
 #include "Turtle/ECS/ECSTypes.h"
 #include "Turtle/ECS/ComponentArray.h"
 #include "Turtle/ECS/System.h"
-#include "Turtle/ECS/Component.h"
 
 #include "Turtle/Core/TurtleString.h"
 
@@ -29,11 +28,11 @@ namespace Turtle
 		}
 
 		template <typename T>
-		void RegisterComponent(TurtleString compName)
+		void RegisterComponent()
 		{
-			CompNameToType[compName] = CurrComponentType;
+			CompNameToType[typeid(T).name()] = CurrComponentType;
 			CurrComponentType++;
-			ComponentArrays.insert({ compName, std::make_shared<ComponentArray<T>>() });
+			ComponentArrays.insert({ typeid(T).name(), std::make_shared<ComponentArray<T>>() });
 		}
 
 		Entity CreateEntity()
@@ -63,9 +62,9 @@ namespace Turtle
 		}
 
 		template<typename T>
-		T& GetComponent(Entity e, const Component& comp)
+		T& GetComponent(Entity e)
 		{
-			std::shared_ptr<ComponentArray<T>> compArray = GetComponentArray<T>(comp.TypeName());
+			std::shared_ptr<ComponentArray<T>> compArray = GetComponentArray<T>(typeid(T).name());
 			return compArray->GetData(e);
 		}
 
@@ -76,13 +75,13 @@ namespace Turtle
 		}
 
 		template <typename T>
-		void AddComponent(Entity entity, const T& component, TurtleString CompName)
+		void AddComponent(Entity entity, const T& component)
 		{
-			ComponentType compType = CompNameToType[CompName];
+			ComponentType compType = CompNameToType[typeid(T).name()];
 
 			Signatures[entity].set(compType, true);
 
-			GetComponentArray<T>(component.TypeName())->Insert(entity, component);
+			GetComponentArray<T>(typeid(T).name())->Insert(entity, component);
 
 			for (System* system : Systems)
 			{
@@ -115,17 +114,20 @@ namespace Turtle
 			}
 		}
 
-		void RegisterComponentInSystem(System& system, const Component& comp)
+		template <typename T>
+		void RegisterComponentInSystem(System& system)
 		{
-			system._sig.set(CompNameToType[comp.TypeName()], true);
+			system._sig.set(CompNameToType[typeid(T).name()], true);
 		}
 		
 		std::queue<Entity> AvailableEntities{};
 		std::array<Signature, MAX_ENTITIES> Signatures {};
+		Entity LivingEntityCount{};
+
 		std::vector<System*> Systems{};
+
 		ComponentType CurrComponentType{};
 		std::unordered_map<TurtleString, ComponentType, TurtleString::TurtleStringHasher> CompNameToType{};
-		Entity LivingEntityCount{};
 		std::unordered_map<TurtleString, std::shared_ptr<IComponentArray>, TurtleString::TurtleStringHasher> ComponentArrays{};
 	};
 }
