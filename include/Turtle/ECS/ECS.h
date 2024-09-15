@@ -75,7 +75,7 @@ namespace Turtle
 		}
 
 		template <typename T>
-		void AddComponent(Entity entity)
+		T& AddComponent(Entity entity)
 		{
 			ComponentType compType = CompNameToType[typeid(T).name()];
 
@@ -90,6 +90,8 @@ namespace Turtle
 					system->_entities.insert(entity);
 				}
 			}
+
+			return GetComponent<T>(entity);
 		}
 
 		void RegisterSystem(System* system)

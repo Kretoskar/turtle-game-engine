@@ -21,8 +21,8 @@ int main()
 
 	// Then add comp to entity
 	Entity e = ecs.CreateEntity();
-	ecs.AddComponent<TransformComponent>(e);
-	TransformComponent& t = ecs.GetComponent<TransformComponent>(e);
+	TransformComponent& t = ecs.AddComponent<TransformComponent>(e);
+	t.x = 10;
 
 	for (int i = 0; i < 100; i++)
 	{
