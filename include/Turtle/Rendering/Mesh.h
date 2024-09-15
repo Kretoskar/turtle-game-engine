@@ -16,6 +16,7 @@ namespace Turtle
         ~Mesh();
 
         void Draw();
+        Material* GetMaterial() const { return _material; }
 
     private:
         std::vector<Vertex> _vertices;

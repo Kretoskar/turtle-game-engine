@@ -97,6 +97,7 @@ namespace Turtle
 		void RegisterSystem(System* system)
 		{
 			Systems.push_back(system);
+			system->_ecs = this;
 
 			// TODO: iterate over signatures
 		}

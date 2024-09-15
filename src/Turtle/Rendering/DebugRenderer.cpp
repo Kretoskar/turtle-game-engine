@@ -1,6 +1,6 @@
-#include "Turtle/Rendering/DebugRenderer.h"
+#include <glad/glad.h>
 
-#include "Turtle/Rendering/Renderer.h"
+#include "Turtle/Rendering/DebugRenderer.h"
 
 #include <iostream>
 #include <glm/glm.hpp>

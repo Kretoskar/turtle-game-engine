@@ -1,25 +1,17 @@
 #include "Turtle/Game/Game.h"
+
 #include "Turtle/ECS/Components/TransformComponent.h"
 #include "Turtle/ECS/Components/NameComponent.h"
+#include "Turtle/ECS/Components/MeshComponent.h"
+
+#include "Turtle/ECS/Systems/RenderingSystem.h"
 
 namespace Turtle 
 {
 	Game::Game()
 	{
-		// First register components
-		_ecs.RegisterComponent<TransformComponent>();
-		_ecs.RegisterComponent<NameComponent>();
-
-		// Then register component in system
-		/*
-		_ecs.RegisterSystem(&_transformSys);
-		_ecs.RegisterComponentInSystem<TransformComponent>(_transformSys);
-
-		
-		_ecs.RegisterSystem(&_testASys);
-		_ecs.RegisterComponentInSystem<TransformComponent>(_testASys);
-		_ecs.RegisterComponentInSystem<TestCompA>(_testASys);
-		*/
+		RegisterComponents();
+		RegisterSystems();
 	}
 
 	void Game::InitInEditor()
@@ -29,6 +21,20 @@ namespace Turtle
 
 	void Game::LoopInEditor()
 	{
+		_renderingSystem.Render();
+	}
 
+	void Turtle::Game::RegisterComponents()
+	{
+		_ecs.RegisterComponent<TransformComponent>();
+		_ecs.RegisterComponent<NameComponent>();
+		_ecs.RegisterComponent<MeshComponent>();
+	}
+
+	void Turtle::Game::RegisterSystems()
+	{
+		_ecs.RegisterSystem(&_renderingSystem);
+		_ecs.RegisterComponentInSystem<TransformComponent>(_renderingSystem);
+		_ecs.RegisterComponentInSystem<MeshComponent>(_renderingSystem);
 	}
 }

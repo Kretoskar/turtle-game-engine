@@ -80,9 +80,13 @@ void Turtle::Engine::Loop()
 {
 	while (!MainWindow->GetShouldClose())
 	{
+		
+
 		Camera->Update();
 		Renderer->Render();
 		DebugRenderer->Render();
+
+		Game->LoopInEditor();
 
 		UserInterface->CreateFrame();
 		UserInterface->Render();

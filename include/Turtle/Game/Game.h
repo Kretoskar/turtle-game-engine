@@ -5,6 +5,7 @@
 
 #include "Turtle/ECS/ECS.h"
 #include "Turtle/Game/Scene.h"
+#include "Turtle/ECS/Systems/RenderingSystem.h"
 
 namespace Turtle
 {
@@ -17,7 +18,12 @@ namespace Turtle
 		void LoopInEditor();
 
 	private:
+		void RegisterComponents();
+		void RegisterSystems();
+
 		Scene _scene;
 		ECS _ecs;
+
+		RenderingSystem _renderingSystem;
 	};
 }
