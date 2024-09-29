@@ -100,6 +100,13 @@ void Turtle::UserInterface::Cleanup()
     ImGui::DestroyContext();
 }
 
+void Turtle::UserInterface::UpdateEntityMap(std::unordered_map<Entity, TurtleString> entityMap)
+{
+    //std move?
+
+    _entityMap = entityMap;
+}
+
 void Turtle::UserInterface::CreateConsoleWidget()
 {
     ImVec2 HorCenterVerBottomPos = ImGui::GetMainViewport()->GetCenter();

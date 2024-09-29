@@ -22,6 +22,7 @@ namespace Turtle
 	void Game::LoopInEditor()
 	{
 		_renderingSystem.Render();
+		_uiSystem.Update();
 	}
 
 	void Turtle::Game::RegisterComponents()
@@ -36,5 +37,8 @@ namespace Turtle
 		_ecs.RegisterSystem(&_renderingSystem);
 		_ecs.RegisterComponentInSystem<TransformComponent>(_renderingSystem);
 		_ecs.RegisterComponentInSystem<MeshComponent>(_renderingSystem);
+
+		_ecs.RegisterSystem(&_uiSystem);
+		_ecs.RegisterComponentInSystem<NameComponent>(_uiSystem);
 	}
 }

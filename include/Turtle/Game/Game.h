@@ -6,6 +6,7 @@
 #include "Turtle/ECS/ECS.h"
 #include "Turtle/Game/Scene.h"
 #include "Turtle/ECS/Systems/RenderingSystem.h"
+#include "Turtle/ECS/Systems/EditorUISystem.h"
 
 namespace Turtle
 {
@@ -25,5 +26,6 @@ namespace Turtle
 		ECS _ecs;
 
 		RenderingSystem _renderingSystem;
+		EditorUISystem _uiSystem;
 	};
 }
