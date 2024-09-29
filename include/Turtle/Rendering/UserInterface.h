@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
-#include <unordered_map>
+#include <map>
 
 #include "Turtle/Core/TurtleString.h"
 #include "Turtle/ECS/ECSTypes.h"
@@ -16,7 +16,7 @@ namespace Turtle
         void Render();
         void Cleanup();
 
-        void UpdateEntityMap(std::unordered_map<Entity, TurtleString> entityMap);
+        void UpdateEntityMap(std::map<Entity, TurtleString> entityMap);
 
     private:
         void CreateConsoleWidget();
@@ -24,6 +24,6 @@ namespace Turtle
         void CreateDetailsWidget();
         void CreateToolbarWidget();
 
-        std::unordered_map<Entity, TurtleString> _entityMap;
+        std::map<Entity, TurtleString> _entityMap;
     };
 }

@@ -5,7 +5,7 @@
 #include "Turtle/Rendering/UserInterface.h"
 #include "Turtle/Core/Logger.h"
 
-#include <unordered_map>
+#include <map>
 
 void Turtle::EditorUISystem::Update()
 {
@@ -19,7 +19,7 @@ void Turtle::EditorUISystem::Update()
 			return;
 	}
 
-	std::unordered_map<Entity, TurtleString> entityMap;
+	std::map<Entity, TurtleString> entityMap;
 
 
 	for (Entity entity : _entities)

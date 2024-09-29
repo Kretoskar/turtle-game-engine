@@ -100,7 +100,7 @@ void Turtle::UserInterface::Cleanup()
     ImGui::DestroyContext();
 }
 
-void Turtle::UserInterface::UpdateEntityMap(std::unordered_map<Entity, TurtleString> entityMap)
+void Turtle::UserInterface::UpdateEntityMap(std::map<Entity, TurtleString> entityMap)
 {
     //std move?
 
@@ -160,6 +160,12 @@ void Turtle::UserInterface::CreateSceneWidget()
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
     ImGui::SetNextWindowSize(SceneWindowSize, ImGuiCond_Always);
     ImGui::Begin("SCENE", nullptr, flags);
+
+    for (auto& entity : _entityMap)
+    {
+        ImGui::Button(entity.second.Get());
+    }
+   
 
     ImGui::End();
 }
