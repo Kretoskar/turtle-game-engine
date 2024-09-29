@@ -30,7 +30,5 @@ void Turtle::Scene::Init(ECS& ecs)
 		sprintf(buffer, "floor %i", i);
 
 		n.Name = TurtleString(buffer);
-
-		printf(n.Name.Get());
 	}
 }

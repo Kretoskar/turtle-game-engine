@@ -5,7 +5,7 @@
 #include "Turtle/ECS/ECS.h"
 #include "Turtle/ECS/Components/TransformComponent.h"
 #include "Turtle/ECS/Components/MeshComponent.h"
-#include "Turtle/Rendering/Mesh.h"
+#include "Turtle/Rendering/Mesh/Mesh.h"
 #include "Turtle/Rendering/Material.h"
 #include "Turtle/Rendering/Shader.h"
 #include "Turtle/Rendering/Camera.h"

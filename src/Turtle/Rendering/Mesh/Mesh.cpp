@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 
-#include "Turtle/Rendering/Mesh.h"
+#include "Turtle/Rendering/Mesh/Mesh.h"
 #include "Turtle/Rendering/Vertex.h"
 #include "Turtle/Rendering/Material.h"
 #include "Turtle/Rendering/VertexBufferObject.h"

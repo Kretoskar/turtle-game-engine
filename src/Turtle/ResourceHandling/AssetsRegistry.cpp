@@ -2,7 +2,7 @@
 #include "Turtle/Rendering/Shader.h"
 #include "Turtle/Rendering/Vertex.h"
 #include "Turtle/Rendering/Material.h"
-#include "Turtle/Rendering/Mesh.h"
+#include "Turtle/Rendering/Mesh/Mesh.h"
 #include "Turtle/Rendering/Texture.h"
 
 #include <glad/glad.h>

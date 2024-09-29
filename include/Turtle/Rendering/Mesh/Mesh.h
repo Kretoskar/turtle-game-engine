@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 
+#include "Turtle/Rendering/Vertex.h"
 #include "Turtle/Rendering/VertexArrayObject.h"
 
 namespace Turtle
@@ -12,8 +13,9 @@ namespace Turtle
     class Mesh
     {
     public:
+        Mesh() {}
         Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material);
-        ~Mesh();
+        virtual ~Mesh();
 
         void Draw();
         Material* GetMaterial() const { return _material; }
