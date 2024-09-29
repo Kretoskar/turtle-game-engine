@@ -35,11 +35,16 @@ void Turtle::AssetsRegistry::Init()
         nullptr,
         *PbrShader);
 
-
     Mesh = std::make_shared<Turtle::Mesh>(
         vertices,
         indices,
         MeshMaterial.get());
+
+    DebugShader= std::make_shared<Shader>("Shaders/debug.frag", "Shaders/debug.vert");
+    DebugShader->Bind();
+
+    DebugMaterial = std::make_shared <Material>(nullptr, nullptr, *DebugShader);
+    DebugMaterial->Bind();
 }
 
 void Turtle::AssetsRegistry::Cleanup()

@@ -18,8 +18,10 @@ namespace Turtle
         void Cleanup();
 
         std::shared_ptr<Shader> PbrShader;
+        std::shared_ptr<Shader> DebugShader;
         std::shared_ptr<Texture> MeshDiffuseMap;
         std::shared_ptr<Mesh> Mesh;
         std::shared_ptr<Material> MeshMaterial;
+        std::shared_ptr<Material> DebugMaterial;
     };
 }

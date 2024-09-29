@@ -33,7 +33,7 @@ namespace Turtle
         void DrawNet(unsigned count, float stride, float size, glm::vec3 color);
 
     private:
-        std::unique_ptr<Shader> _shader;
+        Shader* _shader;
         std::unique_ptr<VertexBufferObject> _lineVbo;
         std::unique_ptr<ElementBufferObject> _lineEbo;
         std::unique_ptr<VertexArrayObject> _lineVao;

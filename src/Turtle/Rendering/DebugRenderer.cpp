@@ -12,9 +12,12 @@
 
 #include "Turtle/Core/Engine.h"
 
+#include "Turtle/ResourceHandling/AssetsRegistry.h"
+#include "Turtle/Rendering/Material.h"
+
 bool Turtle::DebugRenderer::Init()
 {
-    _shader = std::make_unique<Shader>("Shaders/debug.frag", "Shaders/debug.vert");
+    _shader = Engine::AssetsRegistry->DebugMaterial->Shader;
     _shader->Bind();
 
     _lineVao = std::make_unique<VertexArrayObject>();
