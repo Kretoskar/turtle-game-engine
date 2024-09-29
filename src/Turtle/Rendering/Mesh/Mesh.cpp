@@ -9,6 +9,20 @@
 Turtle::Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material)
     : _vertices(vertices), _indices(indices), _material(material)
 {
+    Init(vertices, indices, material);
+}
+
+Turtle::Mesh::~Mesh()
+{
+    _vao.Delete();
+}
+
+void Turtle::Mesh::Init(const std::vector<Vertex>& vertices, const std::vector<unsigned>& indices, Material* material)
+{
+    _vertices = vertices;
+    _indices = indices;
+    _material = material;
+
     _vao.Bind();
 
     const VertexBufferObject vbo = VertexBufferObject(vertices);
@@ -22,11 +36,6 @@ Turtle::Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsign
     _vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));
     // UV
     _vao.LinkAttrib(vbo, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float)));
-}
-
-Turtle::Mesh::~Mesh()
-{
-    _vao.Delete();
 }
 
 void Turtle::Mesh::Draw()

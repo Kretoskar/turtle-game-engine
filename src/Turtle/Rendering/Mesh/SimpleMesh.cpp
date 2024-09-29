@@ -11,10 +11,9 @@ Turtle::SimpleMesh::SimpleMesh(const std::vector<Vertex>& vertices)
 
 	for (size_t i = 0; i < vertices.size(); ++i)
 	{
-		indices[i] = i;
+		indices.push_back(i);
 	}
 
 
-	//Turtle::Mesh::Mesh(vertices, indices, Engine::AssetsRegistry->DebugMaterial);
-	Turtle::Mesh::Mesh(vertices, indices, Engine::AssetsRegistry->DebugMaterial.get());
+	Init(vertices, indices, Engine::AssetsRegistry->DebugMaterial.get());
 }

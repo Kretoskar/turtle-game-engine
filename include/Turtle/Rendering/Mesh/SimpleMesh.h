@@ -7,7 +7,9 @@ namespace Turtle
 {
 	class SimpleMesh : public Mesh
 	{
-		SimpleMesh() = delete;
+	public:
+		SimpleMesh() {};
+		// TODO: std::move?
 		SimpleMesh(const std::vector<Vertex>& vertices);
 		virtual ~SimpleMesh() {}
 	};
