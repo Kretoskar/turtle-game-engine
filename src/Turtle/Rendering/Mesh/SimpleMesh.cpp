@@ -15,5 +15,5 @@ Turtle::SimpleMesh::SimpleMesh(const std::vector<Vertex>& vertices)
 	}
 
 
-	Init(vertices, indices, Engine::AssetsRegistry->DebugMaterial.get());
+	Init(vertices, indices, Engine::AssetsRegistry->UnlitColorMaterial.get());
 }

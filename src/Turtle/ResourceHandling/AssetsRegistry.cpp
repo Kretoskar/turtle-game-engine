@@ -47,6 +47,12 @@ void Turtle::AssetsRegistry::Init()
     DebugMaterial = std::make_shared <Material>(nullptr, nullptr, *DebugShader);
     DebugMaterial->Bind();
 
+    UnlitColorShader = std::make_shared<Shader>("Shaders/unlit_color.frag", "Shaders/debug.vert");
+    UnlitColorShader->Bind();
+ 
+    UnlitColorMaterial = std::make_shared <Material>(nullptr, nullptr, *UnlitColorShader);
+    UnlitColorMaterial->Bind();
+
     ArrowMesh = std::make_shared<Turtle::ArrowMesh>(glm::vec3(1.0f,0.0f,0.0f));
 }
 
